@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Состояния</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.0.0/babel.min.js"></script>
+  <style>
+    #container {
+      padding: 50px;
+      background-color: #FFF;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function LightningCounter() {
+      var counterStyle = {
+        color: "#66FFFF",
+        fontSize: 50
+      };
+
+      const [strikes, setStrikes] = useState(0);
+
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setStrikes(el => el + 100);
+        }, 1000);
+
+        return () => clearInterval(interval);
+      }, []);
+
+      return <h1 style={counterStyle}>{strikes}</h1>;
+    }
+
+    class LightningCounterDisplay extends React.Component {
+      render() {
+        var commonStyle = {
+          margin: 0,
+          padding: 0
+        };
+
+        var divStyle = {
+          width: 250,
+          textAlign: "center",
+          backgroundColor: "black",
+          padding: 40,
+          fontFamily: "sans-serif",
+          color: "#999",
+          borderRadius: 10
+        };
+
+        var textStyles = {
+          emphasis: {
+            fontSize: 38,
+            ...commonStyle
+          },
+          smallEmphasis: {
+            ...commonStyle
+          },
+          small: {
+            fontSize: 17,
+            opacity: 0.5,
+            ...commonStyle
+          } 
+        };
+
+        return (
+          <div style={divStyle}>
+            <LightningCounter />
+            <h2 style={textStyles.smallEmphasis}>ВСПЫШКИ МОЛНИИ</h2>
+            <h2 style={textStyles.emphasis}>НА ПЛАНЕТЕ</h2>
+            <p style={textStyles.small}>(с момента запуска кода)</p>
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(
+      <LightningCounterDisplay />,
+      document.querySelector("#container")
+    );
+  </script>
+</body>
+</html>
